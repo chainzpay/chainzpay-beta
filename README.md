@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-=======
 # ChainzPay
 
 > **🚧 Development Status**: ChainzPay is currently in active development. This is a prototype version showcasing core features. The product is not ready for production use and we are actively working on enhancing its functionality and security features.
@@ -151,4 +141,3 @@ Follow our progress and contribute to development:
 - Documentation: [link to docs]
 
 For any queries or suggestions, please open an issue on GitHub.
->>>>>>> a98ca1dd81b533508e7cd98288468617fa1d699f
