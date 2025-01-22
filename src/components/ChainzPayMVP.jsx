@@ -257,7 +257,7 @@ const ChainzPayMVP = () => {
       {isLoading && <LoadingScreen />}
       <Card className="w-full max-w-2xl">
         <CardHeader className="border-b">
-          <CardTitle className="text-center text-2xl ">
+          <CardTitle className="text-center text-2xl text-black ">
             ChainzPay
           </CardTitle>
         </CardHeader>
