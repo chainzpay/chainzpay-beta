@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ethers } from "ethers";
 import { Card, CardContent, CardHeader, CardTitle } from "./Card";
 import { Wallet, Building2, CreditCard, Phone, Receipt, Check, ExternalLink, Loader } from 'lucide-react';
 
@@ -10,6 +11,40 @@ const ChainzPayMVP = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  //Wallet connection logic
+  const [walletAddress, setWalletAddress] = useState(null);
+  const [balance, setBalance] = useState(null);
+  const [error, setError] = useState(null);
+
+  const connectWallet = async () => {
+    try {
+      if (!window.ethereum) {
+        throw new Error("MetaMask is not installed. Please install it to continue.");
+      }
+
+      const provider = new ethers.BrowserProvider(window.ethereum); // Correct Web3 provider
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+
+      if (accounts.length === 0) {
+        throw new Error("No Ethereum accounts found. Please log in to MetaMask.");
+      }
+
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      const balance = await provider.getBalance(address);
+
+      setWalletAddress(address);
+      setBalance(ethers.formatEther(balance)); // Updated syntax for ethers v6
+       setTimeout(() => {
+      setStep(2);
+      console.log("Step updated to 2");
+    }, 5000);
+    } catch (err) {
+      setError(err.message);
+      console.error("Error connecting wallet:", err);
+    }
+  };
 
   const bankOptions = [
     { id: 'sbi', name: 'State Bank of India' },
@@ -28,13 +63,13 @@ const ChainzPayMVP = () => {
   const platformFee = usdtAmount * 0.02; // 2% platform fee
   const totalAmount = usdtAmount + platformFee;
 
-  const connectWallet = async () => {
-    setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsWalletConnected(true);
-    setIsLoading(false);
-    setStep(2);
-  };
+  // const connectWallet = async () => {
+  //   setIsLoading(true);
+  //   await new Promise(resolve => setTimeout(resolve, 2000));
+  //   setIsWalletConnected(true);
+  //   setIsLoading(false);
+  //   setStep(2);
+  // };
 
   const handlePayment = async () => {
     setIsLoading(true);
@@ -70,6 +105,9 @@ const ChainzPayMVP = () => {
                  flex items-center justify-center space-x-2 hover:bg-blue-600
                  transition-colors duration-200"
       >
+      {walletAddress && <p>Connected: {walletAddress}</p>}
+      {balance && <p>Balance: {balance} ETH</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
         <Wallet size={20} />
         <span>Connect Wallet</span>
       </button>
